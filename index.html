@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101827">
+  <meta name="description" content="اختبر ذكاءك في تحدي الحساب الذهني المكوّن من 100 مستوى.">
+  <title>تحدي 100 مستوى | لعبة ذهنية</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0b1120;
+      --surface: rgba(19, 29, 49, .88);
+      --surface-soft: rgba(255,255,255,.045);
+      --line: rgba(255,255,255,.09);
+      --text: #f3f6fc;
+      --muted: #9eacc4;
+      --mint: #73e5bd;
+      --mint-dark: #36ba91;
+      --blue: #8edcff;
+      --red: #ff8585;
+      --gold: #ffd479;
+      --shadow: 0 24px 80px rgba(0,0,0,.38);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 28px 16px;
+      display: grid;
+      place-items: center;
+      color: var(--text);
+      font-family: Tahoma, Arial, sans-serif;
+      background: radial-gradient(ellipse at 50% -10%, rgba(87, 190, 163, .22), transparent 50%),
+                  radial-gradient(ellipse at 100% 100%, rgba(81, 125, 220, .12), transparent 42%), var(--bg);
+    }
+    button, input { font: inherit; }
+    button { -webkit-tap-highlight-color: transparent; }
+    .app { width: min(100%, 760px); }
+    .header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 23px; }
+    .brand { display: flex; align-items: center; gap: 13px; }
+    .brand-icon { display: grid; place-items: center; width: 52px; height: 52px; border: 1px solid rgba(115,229,189,.25); border-radius: 17px; background: rgba(115,229,189,.1); font-size: 25px; }
+    .eyebrow { margin: 0 0 5px; color: var(--mint); font-size: .76rem; font-weight: 700; }
+    h1 { margin: 0; font-size: clamp(1.55rem, 5vw, 2.15rem); letter-spacing: -.04em; }
+    .reset-btn { flex: 0 0 auto; padding: 10px 14px; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; transition: .2s ease; }
+    .reset-btn:hover { color: var(--text); background: var(--surface-soft); border-color: rgba(255,255,255,.2); }
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
+    .stat { padding: 15px 17px; background: var(--surface); border: 1px solid var(--line); border-radius: 17px; box-shadow: 0 8px 26px rgba(0,0,0,.12); }
+    .stat-label { display: block; margin-bottom: 6px; color: var(--muted); font-size: .79rem; }
+    .stat-value { display: block; font-size: 1.28rem; font-weight: 800; }
+    .card { padding: clamp(19px, 5vw, 30px); background: var(--surface); border: 1px solid var(--line); border-radius: 23px; box-shadow: var(--shadow); backdrop-filter: blur(14px); }
+    .progress-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; color: var(--muted); font-size: .8rem; }
+    .progress-track { height: 10px; overflow: hidden; background: rgba(255,255,255,.075); border-radius: 100px; }
+    .progress-bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), var(--mint)); transition: width .45s ease; }
+    .question-area { padding: 34px 0 28px; text-align: center; }
+    .level-badge { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; color: var(--mint); background: rgba(115,229,189,.1); border: 1px solid rgba(115,229,189,.18); border-radius: 100px; font-size: .83rem; font-weight: 700; }
+    .question { margin: 16px 0 7px; font-size: clamp(1.65rem, 7vw, 3rem); line-height: 1.4; letter-spacing: .01em; }
+    .hint { margin: 0; color: var(--muted); font-size: .9rem; }
+    .answer-form { display: flex; gap: 11px; }
+    .answer-input { min-width: 0; flex: 1; padding: 15px 16px; color: var(--text); background: rgba(3,9,20,.42); border: 1px solid var(--line); border-radius: 14px; outline: none; font-size: 1.05rem; transition: border-color .2s, box-shadow .2s; }
+    .answer-input::placeholder { color: #78869d; }
+    .answer-input:focus { border-color: rgba(115,229,189,.65); box-shadow: 0 0 0 4px rgba(115,229,189,.1); }
+    .primary-btn { min-width: 116px; padding: 13px 20px; color: #06271d; background: linear-gradient(135deg, #8af0cc, var(--mint-dark)); border: 0; border-radius: 14px; font-weight: 800; cursor: pointer; box-shadow: 0 8px 22px rgba(54,186,145,.2); transition: transform .18s, filter .18s; }
+    .primary-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
+    .primary-btn:disabled { cursor: wait; opacity: .7; transform: none; }
+    .feedback { min-height: 25px; margin: 15px 2px 0; color: var(--muted); font-size: .91rem; }
+    .feedback.success { color: var(--mint); }
+    .feedback.error { color: var(--red); }
+    .result { display: none; text-align: center; }
+    .result.show { display: block; }
+    .result-icon { font-size: 3.2rem; }
+    .result h2 { margin: 10px 0; font-size: 1.8rem; }
+    .result p { color: var(--muted); line-height: 1.8; }
+    .result-score { color: var(--gold); font-size: 1.2rem; font-weight: 800; }
+    .footer { margin-top: 16px; text-align: center; color: #71809a; font-size: .75rem; }
+    .hidden { display: none !important; }
+    @media (max-width: 520px) {
+      body { padding: 18px 12px; }
+      .header { align-items: flex-start; }
+      .brand-icon { width: 45px; height: 45px; border-radius: 14px; }
+      .reset-btn { padding: 9px 10px; font-size: .82rem; }
+      .stats { gap: 8px; }
+      .stat { padding: 12px 10px; border-radius: 14px; }
+      .stat-label { font-size: .72rem; }
+      .stat-value { font-size: 1.08rem; }
+      .answer-form { flex-direction: column; }
+      .primary-btn { width: 100%; }
+      .question-area { padding: 27px 0 23px; }
+    }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <main class="app" aria-label="لعبة تحدي 100 مستوى">
+    <header class="header">
+      <div class="brand">
+        <div class="brand-icon" aria-hidden="true">🧠</div>
+        <div><p class="eyebrow">تحدّى عقلك كل يوم</p><h1>تحدي 100 مستوى</h1></div>
+      </div>
+      <button id="restartBtn" class="reset-btn" type="button" title="إعادة اللعبة من البداية">↻ إعادة البداية</button>
+    </header>
+
+    <section class="stats" aria-label="إحصائيات اللعبة">
+      <div class="stat"><span class="stat-label">المستوى</span><strong id="levelLabel" class="stat-value">1 / 100</strong></div>
+      <div class="stat"><span class="stat-label">الصعوبة</span><strong id="difficultyLabel" class="stat-value">سهل</strong></div>
+      <div class="stat"><span class="stat-label">النقاط</span><strong id="scoreLabel" class="stat-value">0</strong></div>
+    </section>
+
+    <section id="gameCard" class="card">
+      <div class="progress-head"><span>التقدم</span><span id="progressText">0٪</span></div>
+      <div class="progress-track" role="progressbar" aria-label="تقدم اللعبة" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progressBar" class="progress-bar"></div></div>
+      <div class="question-area">
+        <span id="badge" class="level-badge">✦ سهل</span>
+        <h2 id="questionText" class="question">احسب: 8 + 5</h2>
+        <p class="hint">أجب بشكل صحيح للانتقال إلى المستوى التالي</p>
+      </div>
+      <form id="answerForm" class="answer-form">
+        <input id="answerInput" class="answer-input" type="number" inputmode="numeric" autocomplete="off" placeholder="اكتب إجابتك هنا" aria-label="إجابة السؤال" required>
+        <button id="submitBtn" class="primary-btn" type="submit">تحقق من الإجابة</button>
+      </form>
+      <p id="feedback" class="feedback" role="status" aria-live="polite">ابدأ التحدي — بالتوفيق!</p>
+    </section>
+
+    <section id="resultCard" class="card result" aria-live="polite">
+      <div class="result-icon" aria-hidden="true">🏆</div>
+      <h2>أتممت التحدي!</h2>
+      <p>أحسنت! لقد أكملت جميع المستويات المئة.</p>
+      <p id="finalScore" class="result-score"></p>
+      <button id="playAgainBtn" class="primary-btn" type="button">العب مرة أخرى</button>
+    </section>
+    <footer class="footer">لعبة حساب ذهني — ١٠٠ مستوى من التحدي والمتعة</footer>
+  </main>
+
+  <script>
+    (() => {
+      'use strict';
+      const TOTAL = 100;
+      const SAVE_KEY = 'arabic-100-level-challenge-v1';
+      const $ = (id) => document.getElementById(id);
+      const ui = {
+        level: $('levelLabel'), difficulty: $('difficultyLabel'), score: $('scoreLabel'), badge: $('badge'),
+        question: $('questionText'), input: $('answerInput'), feedback: $('feedback'), progress: $('progressBar'),
+        progressText: $('progressText'), progressTrack: document.querySelector('[role="progressbar"]'),
+        form: $('answerForm'), submit: $('submitBtn'), game: $('gameCard'), result: $('resultCard'), finalScore: $('finalScore')
+      };
+      let state = { level: 1, score: 0, correct: 0, question: null, locked: false };
+
+      function difficultyFor(level) {
+        if (level <= 25) return 'سهل';
+        if (level <= 50) return 'متوسط';
+        if (level <= 75) return 'صعب';
+        return 'مميز';
+      }
+      function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+      function makeQuestion(level) {
+        const difficulty = difficultyFor(level);
+        const boost = Math.ceil(level / 25);
+        let a, b, answer, text;
+        if (difficulty === 'سهل') {
+          const op = Math.random() < .6 ? '+' : '−';
+          a = randomInt(5, 20 + boost * 5); b = randomInt(2, 12 + boost * 2);
+          if (op === '−' && b > a) [a, b] = [b, a];
+          answer = op === '+' ? a + b : a - b; text = `${a} ${op} ${b}`;
+        } else if (difficulty === 'متوسط') {
+          if (Math.random() < .5) {
+            a = randomInt(20, 90 + boost * 8); b = randomInt(10, 55 + boost * 5);
+            answer = a + b; text = `${a} + ${b}`;
+          } else {
+            a = randomInt(3, 10 + boost * 2); b = randomInt(2, 10 + boost * 2);
+            answer = a * b; text = `${a} × ${b}`;
+          }
+        } else if (difficulty === 'صعب') {
+          if (Math.random() < .5) {
+            a = randomInt(8, 18 + boost * 2); b = randomInt(6, 16 + boost * 2);
+            answer = a * b; text = `${a} × ${b}`;
+          } else {
+            b = randomInt(2, 12 + boost); answer = randomInt(4, 18 + boost); a = b * answer;
+            text = `${a} ÷ ${b}`;
+          }
+        } else {
+          const type = randomInt(1, 4);
+          if (type === 1) { a = randomInt(40, 180 + boost * 12); b = randomInt(25, 120 + boost * 8); answer = a + b; text = `${a} + ${b}`; }
+          else if (type === 2) { a = randomInt(50, 220 + boost * 12); b = randomInt(15, 140 + boost * 8); if (b > a) [a, b] = [b, a]; answer = a - b; text = `${a} − ${b}`; }
+          else if (type === 3) { a = randomInt(12, 24 + boost * 2); b = randomInt(8, 22 + boost * 2); answer = a * b; text = `${a} × ${b}`; }
+          else { b = randomInt(4, 18 + boost); answer = randomInt(8, 25 + boost); a = b * answer; text = `${a} ÷ ${b}`; }
+        }
+        return { text, answer };
+      }
+      function save() {
+        try { localStorage.setItem(SAVE_KEY, JSON.stringify({ level: state.level, score: state.score, correct: state.correct })); }
+        catch (_) { /* اللعبة تظل قابلة للاستخدام إذا كان التخزين غير متاح */ }
+      }
+      function load() {
+        try {
+          const saved = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
+          if (saved && Number.isInteger(saved.level) && saved.level >= 1 && saved.level <= TOTAL && Number.isFinite(saved.score) && Number.isInteger(saved.correct)) {
+            state.level = saved.level; state.score = saved.score; state.correct = saved.correct;
+          }
+        } catch (_) { /* تجاهل بيانات التخزين غير الصالحة */ }
+      }
+      function updateHud() {
+        const difficulty = difficultyFor(state.level);
+        const progress = Math.round(((state.level - 1) / TOTAL) * 100);
+        ui.level.textContent = `${state.level} / ${TOTAL}`;
+        ui.difficulty.textContent = difficulty;
+        ui.score.textContent = state.score;
+        ui.badge.textContent = `✦ ${difficulty}`;
+        ui.progress.style.width = `${progress}%`;
+        ui.progressText.textContent = `${progress}٪`;
+        ui.progressTrack.setAttribute('aria-valuenow', String(progress));
+      }
+      function setFeedback(message, kind = '') {
+        ui.feedback.textContent = message;
+        ui.feedback.className = `feedback${kind ? ` ${kind}` : ''}`;
+      }
+      function render() {
+        state.question = makeQuestion(state.level);
+        ui.question.textContent = `احسب: ${state.question.text}`;
+        ui.input.value = '';
+        ui.submit.disabled = false;
+        state.locked = false;
+        updateHud();
+        setFeedback(state.level === 1 && state.score === 0 ? 'ابدأ التحدي — بالتوفيق!' : 'أجب عن السؤال للمتابعة.');
+        ui.input.focus({ preventScroll: true });
+      }
+      function finish() {
+        save();
+        ui.game.classList.add('hidden');
+        ui.result.classList.add('show');
+        ui.finalScore.textContent = `نتيجتك: ${state.score} نقطة — إجابات صحيحة: ${state.correct} من ${TOTAL}`;
+        ui.level.textContent = `${TOTAL} / ${TOTAL}`;
+        ui.progress.style.width = '100%';
+        ui.progressText.textContent = '100٪';
+        ui.progressTrack.setAttribute('aria-valuenow', '100');
+      }
+      ui.form.addEventListener('submit', (event) => {
+        event.preventDefault();
+        if (state.locked) return;
+        if (ui.input.value.trim() === '') { setFeedback('اكتب إجابتك أولاً.', 'error'); ui.input.focus(); return; }
+        const answer = Number(ui.input.value);
+        if (!Number.isFinite(answer)) { setFeedback('أدخل رقماً صحيحاً من فضلك.', 'error'); return; }
+        state.locked = true;
+        ui.submit.disabled = true;
+        if (answer === state.question.answer) {
+          state.correct += 1;
+          state.score += state.level > 50 ? 15 : 10;
+          setFeedback('إجابة صحيحة! أحسنت 🎉', 'success');
+        } else {
+          setFeedback(`ليست الإجابة الصحيحة. الإجابة هي ${state.question.answer} — تابع المحاولة!`, 'error');
+        }
+        save();
+        window.setTimeout(() => {
+          if (state.level >= TOTAL) { finish(); return; }
+          state.level += 1;
+          save();
+          render();
+        }, 850);
+      });
+      function restart() {
+        state = { level: 1, score: 0, correct: 0, question: null, locked: false };
+        try { localStorage.removeItem(SAVE_KEY); } catch (_) { /* لا شيء */ }
+        ui.result.classList.remove('show');
+        ui.game.classList.remove('hidden');
+        render();
+      }
+      $('restartBtn').addEventListener('click', restart);
+      $('playAgainBtn').addEventListener('click', restart);
+      load();
+      render();
+    })();
+  </script>
+</body>
+</html>
