@@ -2,272 +2,84 @@
 <html lang="ar" dir="rtl">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#101827">
-  <meta name="description" content="اختبر ذكاءك في تحدي الحساب الذهني المكوّن من 100 مستوى.">
-  <title>تحدي 100 مستوى | لعبة ذهنية</title>
+  <meta name="description" content="لوحة تجريبية لإدارة تسجيل دخول وخروج الطلاب.">
+  <title>الحضور الذكي | دخول وخروج الطلاب</title>
   <style>
-    :root {
-      color-scheme: dark;
-      --bg: #0b1120;
-      --surface: rgba(19, 29, 49, .88);
-      --surface-soft: rgba(255,255,255,.045);
-      --line: rgba(255,255,255,.09);
-      --text: #f3f6fc;
-      --muted: #9eacc4;
-      --mint: #73e5bd;
-      --mint-dark: #36ba91;
-      --blue: #8edcff;
-      --red: #ff8585;
-      --gold: #ffd479;
-      --shadow: 0 24px 80px rgba(0,0,0,.38);
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      min-height: 100vh;
-      padding: 28px 16px;
-      display: grid;
-      place-items: center;
-      color: var(--text);
-      font-family: Tahoma, Arial, sans-serif;
-      background: radial-gradient(ellipse at 50% -10%, rgba(87, 190, 163, .22), transparent 50%),
-                  radial-gradient(ellipse at 100% 100%, rgba(81, 125, 220, .12), transparent 42%), var(--bg);
-    }
-    button, input { font: inherit; }
-    button { -webkit-tap-highlight-color: transparent; }
-    .app { width: min(100%, 760px); }
-    .header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 23px; }
-    .brand { display: flex; align-items: center; gap: 13px; }
-    .brand-icon { display: grid; place-items: center; width: 52px; height: 52px; border: 1px solid rgba(115,229,189,.25); border-radius: 17px; background: rgba(115,229,189,.1); font-size: 25px; }
-    .eyebrow { margin: 0 0 5px; color: var(--mint); font-size: .76rem; font-weight: 700; }
-    h1 { margin: 0; font-size: clamp(1.55rem, 5vw, 2.15rem); letter-spacing: -.04em; }
-    .reset-btn { flex: 0 0 auto; padding: 10px 14px; color: var(--muted); background: transparent; border: 1px solid var(--line); border-radius: 12px; cursor: pointer; transition: .2s ease; }
-    .reset-btn:hover { color: var(--text); background: var(--surface-soft); border-color: rgba(255,255,255,.2); }
-    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-bottom: 14px; }
-    .stat { padding: 15px 17px; background: var(--surface); border: 1px solid var(--line); border-radius: 17px; box-shadow: 0 8px 26px rgba(0,0,0,.12); }
-    .stat-label { display: block; margin-bottom: 6px; color: var(--muted); font-size: .79rem; }
-    .stat-value { display: block; font-size: 1.28rem; font-weight: 800; }
-    .card { padding: clamp(19px, 5vw, 30px); background: var(--surface); border: 1px solid var(--line); border-radius: 23px; box-shadow: var(--shadow); backdrop-filter: blur(14px); }
-    .progress-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; color: var(--muted); font-size: .8rem; }
-    .progress-track { height: 10px; overflow: hidden; background: rgba(255,255,255,.075); border-radius: 100px; }
-    .progress-bar { width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, var(--blue), var(--mint)); transition: width .45s ease; }
-    .question-area { padding: 34px 0 28px; text-align: center; }
-    .level-badge { display: inline-flex; align-items: center; gap: 7px; padding: 7px 12px; color: var(--mint); background: rgba(115,229,189,.1); border: 1px solid rgba(115,229,189,.18); border-radius: 100px; font-size: .83rem; font-weight: 700; }
-    .question { margin: 16px 0 7px; font-size: clamp(1.65rem, 7vw, 3rem); line-height: 1.4; letter-spacing: .01em; }
-    .hint { margin: 0; color: var(--muted); font-size: .9rem; }
-    .answer-form { display: flex; gap: 11px; }
-    .answer-input { min-width: 0; flex: 1; padding: 15px 16px; color: var(--text); background: rgba(3,9,20,.42); border: 1px solid var(--line); border-radius: 14px; outline: none; font-size: 1.05rem; transition: border-color .2s, box-shadow .2s; }
-    .answer-input::placeholder { color: #78869d; }
-    .answer-input:focus { border-color: rgba(115,229,189,.65); box-shadow: 0 0 0 4px rgba(115,229,189,.1); }
-    .primary-btn { min-width: 116px; padding: 13px 20px; color: #06271d; background: linear-gradient(135deg, #8af0cc, var(--mint-dark)); border: 0; border-radius: 14px; font-weight: 800; cursor: pointer; box-shadow: 0 8px 22px rgba(54,186,145,.2); transition: transform .18s, filter .18s; }
-    .primary-btn:hover { transform: translateY(-1px); filter: brightness(1.05); }
-    .primary-btn:disabled { cursor: wait; opacity: .7; transform: none; }
-    .feedback { min-height: 25px; margin: 15px 2px 0; color: var(--muted); font-size: .91rem; }
-    .feedback.success { color: var(--mint); }
-    .feedback.error { color: var(--red); }
-    .result { display: none; text-align: center; }
-    .result.show { display: block; }
-    .result-icon { font-size: 3.2rem; }
-    .result h2 { margin: 10px 0; font-size: 1.8rem; }
-    .result p { color: var(--muted); line-height: 1.8; }
-    .result-score { color: var(--gold); font-size: 1.2rem; font-weight: 800; }
-    .footer { margin-top: 16px; text-align: center; color: #71809a; font-size: .75rem; }
-    .hidden { display: none !important; }
-    @media (max-width: 520px) {
-      body { padding: 18px 12px; }
-      .header { align-items: flex-start; }
-      .brand-icon { width: 45px; height: 45px; border-radius: 14px; }
-      .reset-btn { padding: 9px 10px; font-size: .82rem; }
-      .stats { gap: 8px; }
-      .stat { padding: 12px 10px; border-radius: 14px; }
-      .stat-label { font-size: .72rem; }
-      .stat-value { font-size: 1.08rem; }
-      .answer-form { flex-direction: column; }
-      .primary-btn { width: 100%; }
-      .question-area { padding: 27px 0 23px; }
-    }
-    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; } }
+    :root{color-scheme:dark;--bg:#0b1120;--panel:#131d31;--panel2:#1a2740;--line:#293750;--text:#f3f6fc;--muted:#9eacc4;--mint:#73e5bd;--red:#ff8585;--gold:#ffd479;--blue:#8edcff}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% -10%,rgba(87,190,163,.16),transparent 50%),var(--bg);color:var(--text);font-family:Tahoma,Arial,sans-serif}
+    button,input,select,textarea{font:inherit}button{cursor:pointer}.shell{width:min(1180px,100%);margin:auto;padding:28px 20px 50px}.header{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:25px}.brand{display:flex;align-items:center;gap:14px}.logo{width:54px;height:54px;display:grid;place-items:center;border:1px solid #31584e;border-radius:17px;background:#142b2b;font-size:26px}.eyebrow{margin:0 0 5px;color:var(--mint);font-size:.8rem;font-weight:bold}h1{margin:0;font-size:clamp(1.45rem,4vw,2.1rem)}.sub{margin:6px 0 0;color:var(--muted);font-size:.9rem}.date{color:var(--muted);font-size:.9rem;text-align:left}
+    .notice{margin:0 0 18px;padding:13px 15px;border:1px solid #66542e;border-radius:13px;background:#332a16;color:#ffe1a3;font-size:.88rem;line-height:1.7}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin-bottom:18px}.stat,.panel{background:rgba(19,29,49,.92);border:1px solid var(--line);border-radius:17px}.stat{padding:16px}.stat span{display:block;color:var(--muted);font-size:.8rem;margin-bottom:9px}.stat strong{font-size:1.5rem}.stat strong.in{color:var(--mint)}.stat strong.out{color:var(--blue)}.layout{display:grid;grid-template-columns:minmax(290px,.85fr) minmax(0,1.5fr);gap:17px}.panel{padding:20px}.panel h2{margin:0 0 16px;font-size:1.12rem}.field{display:grid;gap:7px;margin-bottom:13px}.field label{font-size:.84rem;color:var(--muted)}input,select,textarea{width:100%;padding:12px 13px;border:1px solid var(--line);border-radius:11px;background:#0d1628;color:var(--text);outline:none}input:focus,select:focus,textarea:focus{border-color:var(--mint);box-shadow:0 0 0 3px #73e5bd1a}.buttons{display:flex;gap:9px}.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:bold}.btn:disabled{opacity:.5;cursor:not-allowed}.btn-in{background:var(--mint);color:#08261d}.btn-out{background:#263c59;color:#d9f3ff}.btn-muted{background:#273249;color:var(--text)}.btn-danger{background:#49262c;color:#ffd2d2}.status{min-height:22px;margin:12px 0 0;color:var(--muted);font-size:.86rem}.status.ok{color:var(--mint)}.status.err{color:var(--red)}.table-top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}.table-top h2{margin:0}.filters{display:flex;gap:8px}.filters select,.filters input{width:auto;min-width:120px;padding:9px}.table-wrap{overflow:auto;max-height:430px;border:1px solid var(--line);border-radius:12px}table{width:100%;border-collapse:collapse;min-width:510px}th,td{text-align:right;padding:12px 13px;border-bottom:1px solid var(--line);font-size:.87rem}th{position:sticky;top:0;background:#18243a;color:var(--muted);font-weight:normal}tbody tr:last-child td{border-bottom:0}.pill{display:inline-block;padding:5px 9px;border-radius:99px;font-size:.76rem}.pill.in{color:var(--mint);background:#17372f}.pill.out{color:var(--blue);background:#1c3143}.pill.none{color:#c1cada;background:#293249}.empty{text-align:center;color:var(--muted);padding:30px}.bottom{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;color:var(--muted);font-size:.8rem}.admin{margin-top:17px}.admin summary{cursor:pointer;color:var(--blue);font-weight:bold}.admin-content{padding-top:15px}.admin-content p{color:var(--muted);font-size:.83rem;line-height:1.7}.admin-content textarea{min-height:130px;resize:vertical;font-family:monospace;font-size:.82rem;direction:ltr;text-align:left}.admin-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:10px}.small{font-size:.78rem;color:var(--muted);line-height:1.7}.footer{margin-top:18px;text-align:center;color:#71809a;font-size:.75rem}
+    @media(max-width:850px){.layout{grid-template-columns:1fr}.stats{grid-template-columns:repeat(2,1fr)}}@media(max-width:540px){.shell{padding:20px 12px}.header{align-items:flex-start}.date{font-size:.78rem}.stats{gap:8px}.stat{padding:12px}.stat strong{font-size:1.25rem}.panel{padding:15px}.table-top{align-items:flex-start;flex-direction:column}.filters{width:100%}.filters>*{min-width:0!important;flex:1}.buttons .btn{flex:1;padding-inline:8px}.notice{font-size:.8rem}}
   </style>
 </head>
 <body>
-  <main class="app" aria-label="لعبة تحدي 100 مستوى">
+  <main class="shell">
     <header class="header">
-      <div class="brand">
-        <div class="brand-icon" aria-hidden="true">🧠</div>
-        <div><p class="eyebrow">تحدّى عقلك كل يوم</p><h1>تحدي 100 مستوى</h1></div>
-      </div>
-      <button id="restartBtn" class="reset-btn" type="button" title="إعادة اللعبة من البداية">↻ إعادة البداية</button>
+      <div class="brand"><div class="logo" aria-hidden="true">🎓</div><div><p class="eyebrow">نظام إدارة الحضور</p><h1>دخول وخروج الطلاب الذكي</h1><p class="sub">تسجيل ومتابعة حركة الطلاب اليومية</p></div></div>
+      <div class="date" id="todayLabel"></div>
     </header>
-
-    <section class="stats" aria-label="إحصائيات اللعبة">
-      <div class="stat"><span class="stat-label">المستوى</span><strong id="levelLabel" class="stat-value">1 / 100</strong></div>
-      <div class="stat"><span class="stat-label">الصعوبة</span><strong id="difficultyLabel" class="stat-value">سهل</strong></div>
-      <div class="stat"><span class="stat-label">النقاط</span><strong id="scoreLabel" class="stat-value">0</strong></div>
+    <div class="notice"><strong>نسخة تجريبية محلية:</strong> البيانات تحفظ في هذا المتصفح فقط وليست نظام حضور رسميًا أو قاعدة بيانات مشتركة. المستودع عام؛ لذلك لم أضع أسماء الطلاب أو أكوادهم فيه. أضف القائمة من لوحة إدارة الفصول بعد جعلها خاصة، ولا تستخدم أكواد الطلاب كبديل عن تحقق الموظف.</div>
+    <section class="stats" aria-label="إحصائيات اليوم">
+      <div class="stat"><span>إجمالي الطلاب</span><strong id="totalCount">0</strong></div>
+      <div class="stat"><span>سجّلوا الدخول</span><strong class="in" id="inCount">0</strong></div>
+      <div class="stat"><span>سجّلوا الخروج</span><strong class="out" id="outCount">0</strong></div>
+      <div class="stat"><span>لم يسجلوا الدخول</span><strong id="missingCount">0</strong></div>
     </section>
-
-    <section id="gameCard" class="card">
-      <div class="progress-head"><span>التقدم</span><span id="progressText">0٪</span></div>
-      <div class="progress-track" role="progressbar" aria-label="تقدم اللعبة" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><div id="progressBar" class="progress-bar"></div></div>
-      <div class="question-area">
-        <span id="badge" class="level-badge">✦ سهل</span>
-        <h2 id="questionText" class="question">احسب: 8 + 5</h2>
-        <p class="hint">أجب بشكل صحيح للانتقال إلى المستوى التالي</p>
-      </div>
-      <form id="answerForm" class="answer-form">
-        <input id="answerInput" class="answer-input" type="number" inputmode="numeric" autocomplete="off" placeholder="اكتب إجابتك هنا" aria-label="إجابة السؤال" required>
-        <button id="submitBtn" class="primary-btn" type="submit">تحقق من الإجابة</button>
-      </form>
-      <p id="feedback" class="feedback" role="status" aria-live="polite">ابدأ التحدي — بالتوفيق!</p>
-    </section>
-
-    <section id="resultCard" class="card result" aria-live="polite">
-      <div class="result-icon" aria-hidden="true">🏆</div>
-      <h2>أتممت التحدي!</h2>
-      <p>أحسنت! لقد أكملت جميع المستويات المئة.</p>
-      <p id="finalScore" class="result-score"></p>
-      <button id="playAgainBtn" class="primary-btn" type="button">العب مرة أخرى</button>
-    </section>
-    <footer class="footer">لعبة حساب ذهني — ١٠٠ مستوى من التحدي والمتعة</footer>
+    <div class="layout">
+      <section class="panel">
+        <h2>تسجيل دخول أو خروج</h2>
+        <div class="field"><label for="classSelect">الفصل</label><select id="classSelect"><option value="">اختر الفصل</option></select></div>
+        <div class="field"><label for="codeInput">كود الطالب</label><input id="codeInput" inputmode="numeric" autocomplete="off" placeholder="أدخل كود الطالب"></div>
+        <div class="buttons"><button id="checkInBtn" class="btn btn-in" type="button">تسجيل دخول</button><button id="checkOutBtn" class="btn btn-out" type="button">تسجيل خروج</button></div>
+        <p id="formStatus" class="status" role="status" aria-live="polite">اختر الفصل وأدخل كود الطالب.</p>
+        <p class="small">وقت التسجيل يؤخذ من ساعة الجهاز. في الاستخدام المدرسي الفعلي، يلزم تسجيل دخول للموظف وخادم مركزي وسجل تدقيق موثوق.</p>
+        <details class="admin">
+          <summary>إدارة الفصول والطلاب</summary>
+          <div class="admin-content">
+            <p>أضف بياناتك هنا محليًا بصيغة JSON، مثل المثال. لا تُرفع إلى GitHub. شكل البيانات: اسم الفصل ثم قائمة الطلاب، وكل طالب له code وname.</p>
+            <textarea id="rosterInput" spellcheck="false" aria-label="بيانات الفصول بصيغة JSON" placeholder='{"1B1":[{"code":"مثال-01","name":"اسم الطالب"}]}'></textarea>
+            <div class="admin-actions"><button id="saveRosterBtn" class="btn btn-in" type="button">حفظ الفصول على هذا الجهاز</button><button id="clearDataBtn" class="btn btn-danger" type="button">مسح بيانات هذا الجهاز</button></div>
+            <p id="adminStatus" class="status" role="status" aria-live="polite"></p>
+          </div>
+        </details>
+      </section>
+      <section class="panel">
+        <div class="table-top"><h2>سجل اليوم</h2><div class="filters"><select id="filterClass"><option value="all">كل الفصول</option></select><input id="searchInput" type="search" placeholder="بحث بالاسم أو الكود" aria-label="بحث"></div></div>
+        <div class="table-wrap"><table><thead><tr><th>الطالب</th><th>الفصل</th><th>الحالة</th><th>وقت الدخول</th><th>وقت الخروج</th></tr></thead><tbody id="recordsBody"></tbody></table><div id="emptyState" class="empty">أضف بيانات الفصول لعرض السجل.</div></div>
+        <div class="bottom"><span id="recordsSummary">لا توجد سجلات</span><button id="exportBtn" class="btn btn-muted" type="button">تصدير CSV</button></div>
+      </section>
+    </div>
+    <footer class="footer">الحضور الذكي · نسخة تجريبية</footer>
   </main>
-
-  <script>
-    (() => {
-      'use strict';
-      const TOTAL = 100;
-      const SAVE_KEY = 'arabic-100-level-challenge-v1';
-      const $ = (id) => document.getElementById(id);
-      const ui = {
-        level: $('levelLabel'), difficulty: $('difficultyLabel'), score: $('scoreLabel'), badge: $('badge'),
-        question: $('questionText'), input: $('answerInput'), feedback: $('feedback'), progress: $('progressBar'),
-        progressText: $('progressText'), progressTrack: document.querySelector('[role="progressbar"]'),
-        form: $('answerForm'), submit: $('submitBtn'), game: $('gameCard'), result: $('resultCard'), finalScore: $('finalScore')
-      };
-      let state = { level: 1, score: 0, correct: 0, question: null, locked: false };
-
-      function difficultyFor(level) {
-        if (level <= 25) return 'سهل';
-        if (level <= 50) return 'متوسط';
-        if (level <= 75) return 'صعب';
-        return 'مميز';
-      }
-      function randomInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-      function makeQuestion(level) {
-        const difficulty = difficultyFor(level);
-        const boost = Math.ceil(level / 25);
-        let a, b, answer, text;
-        if (difficulty === 'سهل') {
-          const op = Math.random() < .6 ? '+' : '−';
-          a = randomInt(5, 20 + boost * 5); b = randomInt(2, 12 + boost * 2);
-          if (op === '−' && b > a) [a, b] = [b, a];
-          answer = op === '+' ? a + b : a - b; text = `${a} ${op} ${b}`;
-        } else if (difficulty === 'متوسط') {
-          if (Math.random() < .5) {
-            a = randomInt(20, 90 + boost * 8); b = randomInt(10, 55 + boost * 5);
-            answer = a + b; text = `${a} + ${b}`;
-          } else {
-            a = randomInt(3, 10 + boost * 2); b = randomInt(2, 10 + boost * 2);
-            answer = a * b; text = `${a} × ${b}`;
-          }
-        } else if (difficulty === 'صعب') {
-          if (Math.random() < .5) {
-            a = randomInt(8, 18 + boost * 2); b = randomInt(6, 16 + boost * 2);
-            answer = a * b; text = `${a} × ${b}`;
-          } else {
-            b = randomInt(2, 12 + boost); answer = randomInt(4, 18 + boost); a = b * answer;
-            text = `${a} ÷ ${b}`;
-          }
-        } else {
-          const type = randomInt(1, 4);
-          if (type === 1) { a = randomInt(40, 180 + boost * 12); b = randomInt(25, 120 + boost * 8); answer = a + b; text = `${a} + ${b}`; }
-          else if (type === 2) { a = randomInt(50, 220 + boost * 12); b = randomInt(15, 140 + boost * 8); if (b > a) [a, b] = [b, a]; answer = a - b; text = `${a} − ${b}`; }
-          else if (type === 3) { a = randomInt(12, 24 + boost * 2); b = randomInt(8, 22 + boost * 2); answer = a * b; text = `${a} × ${b}`; }
-          else { b = randomInt(4, 18 + boost); answer = randomInt(8, 25 + boost); a = b * answer; text = `${a} ÷ ${b}`; }
-        }
-        return { text, answer };
-      }
-      function save() {
-        try { localStorage.setItem(SAVE_KEY, JSON.stringify({ level: state.level, score: state.score, correct: state.correct })); }
-        catch (_) { /* اللعبة تظل قابلة للاستخدام إذا كان التخزين غير متاح */ }
-      }
-      function load() {
-        try {
-          const saved = JSON.parse(localStorage.getItem(SAVE_KEY) || 'null');
-          if (saved && Number.isInteger(saved.level) && saved.level >= 1 && saved.level <= TOTAL && Number.isFinite(saved.score) && Number.isInteger(saved.correct)) {
-            state.level = saved.level; state.score = saved.score; state.correct = saved.correct;
-          }
-        } catch (_) { /* تجاهل بيانات التخزين غير الصالحة */ }
-      }
-      function updateHud() {
-        const difficulty = difficultyFor(state.level);
-        const progress = Math.round(((state.level - 1) / TOTAL) * 100);
-        ui.level.textContent = `${state.level} / ${TOTAL}`;
-        ui.difficulty.textContent = difficulty;
-        ui.score.textContent = state.score;
-        ui.badge.textContent = `✦ ${difficulty}`;
-        ui.progress.style.width = `${progress}%`;
-        ui.progressText.textContent = `${progress}٪`;
-        ui.progressTrack.setAttribute('aria-valuenow', String(progress));
-      }
-      function setFeedback(message, kind = '') {
-        ui.feedback.textContent = message;
-        ui.feedback.className = `feedback${kind ? ` ${kind}` : ''}`;
-      }
-      function render() {
-        state.question = makeQuestion(state.level);
-        ui.question.textContent = `احسب: ${state.question.text}`;
-        ui.input.value = '';
-        ui.submit.disabled = false;
-        state.locked = false;
-        updateHud();
-        setFeedback(state.level === 1 && state.score === 0 ? 'ابدأ التحدي — بالتوفيق!' : 'أجب عن السؤال للمتابعة.');
-        ui.input.focus({ preventScroll: true });
-      }
-      function finish() {
-        save();
-        ui.game.classList.add('hidden');
-        ui.result.classList.add('show');
-        ui.finalScore.textContent = `نتيجتك: ${state.score} نقطة — إجابات صحيحة: ${state.correct} من ${TOTAL}`;
-        ui.level.textContent = `${TOTAL} / ${TOTAL}`;
-        ui.progress.style.width = '100%';
-        ui.progressText.textContent = '100٪';
-        ui.progressTrack.setAttribute('aria-valuenow', '100');
-      }
-      ui.form.addEventListener('submit', (event) => {
-        event.preventDefault();
-        if (state.locked) return;
-        if (ui.input.value.trim() === '') { setFeedback('اكتب إجابتك أولاً.', 'error'); ui.input.focus(); return; }
-        const answer = Number(ui.input.value);
-        if (!Number.isFinite(answer)) { setFeedback('أدخل رقماً صحيحاً من فضلك.', 'error'); return; }
-        state.locked = true;
-        ui.submit.disabled = true;
-        if (answer === state.question.answer) {
-          state.correct += 1;
-          state.score += state.level > 50 ? 15 : 10;
-          setFeedback('إجابة صحيحة! أحسنت 🎉', 'success');
-        } else {
-          setFeedback(`ليست الإجابة الصحيحة. الإجابة هي ${state.question.answer} — تابع المحاولة!`, 'error');
-        }
-        save();
-        window.setTimeout(() => {
-          if (state.level >= TOTAL) { finish(); return; }
-          state.level += 1;
-          save();
-          render();
-        }, 850);
-      });
-      function restart() {
-        state = { level: 1, score: 0, correct: 0, question: null, locked: false };
-        try { localStorage.removeItem(SAVE_KEY); } catch (_) { /* لا شيء */ }
-        ui.result.classList.remove('show');
-        ui.game.classList.remove('hidden');
-        render();
-      }
-      $('restartBtn').addEventListener('click', restart);
-      $('playAgainBtn').addEventListener('click', restart);
-      load();
-      render();
-    })();
-  </script>
+<script>
+(() => {
+  'use strict';
+  const ROSTER_KEY = 'smart-attendance-roster-v1';
+  const LOG_KEY = 'smart-attendance-logs-v1';
+  const TODAY_KEY = new Date().toLocaleDateString('en-CA');
+  const $ = id => document.getElementById(id);
+  const ui = {classSelect:$('classSelect'),code:$('codeInput'),status:$('formStatus'),adminStatus:$('adminStatus'),roster:$('rosterInput'),filter:$('filterClass'),search:$('searchInput'),body:$('recordsBody'),empty:$('emptyState')};
+  let roster = loadJson(ROSTER_KEY, {});
+  let logs = loadJson(LOG_KEY, {});
+  if (!logs[TODAY_KEY]) logs[TODAY_KEY] = {};
+  $('todayLabel').textContent = new Date().toLocaleDateString('ar-SA',{weekday:'long',year:'numeric',month:'long',day:'numeric'});
+  function loadJson(key,fallback){try{const value=JSON.parse(localStorage.getItem(key));return value&&typeof value==='object'?value:fallback}catch{return fallback}}
+  function save(){try{localStorage.setItem(ROSTER_KEY,JSON.stringify(roster));localStorage.setItem(LOG_KEY,JSON.stringify(logs))}catch{setStatus(ui.status,'تعذر الحفظ في المتصفح. تحقق من مساحة التخزين.','err')}}
+  function setStatus(node,text,kind=''){node.textContent=text;node.className=`status${kind?' '+kind:''}`}
+  function todayLogs(){return logs[TODAY_KEY]||(logs[TODAY_KEY]={})}
+  function allStudents(){return Object.entries(roster).flatMap(([className,students])=>students.map(student=>({...student,className})))}
+  function refreshClassLists(){const names=Object.keys(roster).sort((a,b)=>a.localeCompare(b,undefined,{numeric:true}));ui.classSelect.innerHTML='<option value="">اختر الفصل</option>'+names.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');const old=ui.filter.value;ui.filter.innerHTML='<option value="all">كل الفصول</option>'+names.map(n=>`<option value="${escapeHtml(n)}">${escapeHtml(n)}</option>`).join('');ui.filter.value=names.includes(old)?old:'all';render()}
+  function escapeHtml(value){return String(value).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+  function render(){const students=allStudents(),day=todayLogs(),filter=ui.filter.value,query=ui.search.value.trim().toLowerCase();const matching=students.filter(s=>(filter==='all'||s.className===filter)&&(!query||s.name.toLowerCase().includes(query)||s.code.toLowerCase().includes(query)));const checkedIn=students.filter(s=>day[s.className+'|'+s.code]?.checkIn).length;const checkedOut=students.filter(s=>day[s.className+'|'+s.code]?.checkOut).length;$('totalCount').textContent=students.length;$('inCount').textContent=checkedIn;$('outCount').textContent=checkedOut;$('missingCount').textContent=students.length-checkedIn;ui.body.innerHTML=matching.map(s=>{const record=day[s.className+'|'+s.code]||{};const status=record.checkOut?'خرج':record.checkIn?'داخل':'لم يسجل';const cls=record.checkOut?'out':record.checkIn?'in':'none';return `<tr><td>${escapeHtml(s.name)} <span class="small">(${escapeHtml(s.code)})</span></td><td>${escapeHtml(s.className)}</td><td><span class="pill ${cls}">${status}</span></td><td>${record.checkIn||'—'}</td><td>${record.checkOut||'—'}</td></tr>`}).join('');ui.empty.style.display=matching.length?'none':'block';ui.empty.textContent=students.length?'لا توجد نتائج مطابقة.':'أضف بيانات الفصول من لوحة الإدارة لبدء الاستخدام.';$('recordsSummary').textContent=`عرض ${matching.length} من ${students.length} طالب`}
+  function record(action){const className=ui.classSelect.value,code=ui.code.value.trim();if(!className||!code){setStatus(ui.status,'اختر الفصل وأدخل كود الطالب.','err');return}const student=(roster[className]||[]).find(s=>String(s.code)===code);if(!student){setStatus(ui.status,'لم يتم العثور على الطالب في الفصل المحدد.','err');return}const key=className+'|'+code,day=todayLogs(),now=new Date().toLocaleTimeString('ar-SA',{hour:'2-digit',minute:'2-digit'});if(action==='checkIn'){if(day[key]?.checkIn){setStatus(ui.status,`تم تسجيل دخول ${student.name} مسبقًا عند ${day[key].checkIn}.`,'err');return}day[key]={...(day[key]||{}),name:student.name,className,code,checkIn:now};setStatus(ui.status,`تم تسجيل دخول ${student.name} — ${className}، الساعة ${now}.`,'ok')}else{if(!day[key]?.checkIn){setStatus(ui.status,'لا يمكن تسجيل الخروج قبل تسجيل الدخول.','err');return}if(day[key].checkOut){setStatus(ui.status,`${student.name} مسجل خروجه مسبقًا عند ${day[key].checkOut}.`,'err');return}day[key].checkOut=now;setStatus(ui.status,`تم تسجيل خروج ${student.name}، الساعة ${now}.`,'ok')}save();ui.code.value='';render();ui.code.focus()}
+  $('checkInBtn').addEventListener('click',()=>record('checkIn'));$('checkOutBtn').addEventListener('click',()=>record('checkOut'));ui.code.addEventListener('keydown',e=>{if(e.key==='Enter')record('checkIn')});ui.filter.addEventListener('change',render);ui.search.addEventListener('input',render);
+  $('saveRosterBtn').addEventListener('click',()=>{try{const parsed=JSON.parse(ui.roster.value);if(!parsed||Array.isArray(parsed)||typeof parsed!=='object'||!Object.keys(parsed).length)throw new Error('أدخل فصولًا صالحة.');for(const [className,students] of Object.entries(parsed)){if(!Array.isArray(students))throw new Error(`الفصل ${className} يجب أن يحتوي قائمة طلاب.`);const seen=new Set();for(const student of students){if(!student||student.code==null||!String(student.code).trim()||!student.name||!String(student.name).trim())throw new Error(`تحقق من الاسم والكود في الفصل ${className}.`);const code=String(student.code).trim();if(seen.has(code))throw new Error(`الكود ${code} مكرر داخل الفصل ${className}.`);seen.add(code)}}roster=Object.fromEntries(Object.entries(parsed).map(([name,list])=>[name,list.map(s=>({code:String(s.code).trim(),name:String(s.name).trim()}))]));save();refreshClassLists();setStatus(ui.adminStatus,'تم حفظ الفصول على هذا الجهاز فقط.','ok')}catch(error){setStatus(ui.adminStatus,error.message||'تعذر قراءة JSON.','err')}});
+  $('clearDataBtn').addEventListener('click',()=>{if(!confirm('سيتم حذف قوائم الطلاب وسجلات الحضور من هذا المتصفح. هل تريد المتابعة؟'))return;roster={};logs={};logs[TODAY_KEY]={};save();ui.roster.value='';refreshClassLists();setStatus(ui.adminStatus,'تم مسح البيانات المحلية.','ok');setStatus(ui.status,'اختر الفصل وأدخل كود الطالب.')});
+  $('exportBtn').addEventListener('click',()=>{const rows=[['الاسم','الكود','الفصل','الحالة','وقت الدخول','وقت الخروج'],...allStudents().map(s=>{const r=todayLogs()[s.className+'|'+s.code]||{};return[s.name,s.code,s.className,r.checkOut?'خرج':r.checkIn?'داخل':'لم يسجل',r.checkIn||'',r.checkOut||'']})];if(rows.length===1){setStatus(ui.status,'لا توجد بيانات لتصديرها.','err');return}const csv='\uFEFF'+rows.map(row=>row.map(cell=>'"'+String(cell).replaceAll('"','""')+'"').join(',')).join('\r\n');const link=document.createElement('a');link.href=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));link.download=`attendance-${TODAY_KEY}.csv`;link.click();URL.revokeObjectURL(link.href)});
+  ui.roster.value='';refreshClassLists();
+})();
+</script>
 </body>
 </html>
